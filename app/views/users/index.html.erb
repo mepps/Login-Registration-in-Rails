@@ -1,0 +1,45 @@
+<h1>Listing users</h1>
+<form action="<%="/sessions/#{session[:user_id]}"%>" method="post">
+  <input type="hidden" name="_method" value="delete" />
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="submit" class="btn btn-warning" value="Log Out" />
+</form>
+
+
+<table>
+  <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Email address</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+<%if user.id == session[:user_id]%>
+  <tr>
+    <td><strong><%= user.first_name %></strong></td>
+    <td><strong><%= user.last_name %></strong></td>
+    <td><strong><%= user.email_address %></strong></td>
+    <td><%= link_to 'You', user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<%else%>
+
+  <tr>
+    <td><%= user.first_name %></td>
+    <td><%= user.last_name %></td>
+    <td><%= user.email_address %></td>
+    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+  <% end %>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User', new_user_path %>
